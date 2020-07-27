@@ -1,12 +1,16 @@
 #!/bin/bash -e
 
+TKG_LAB_SCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $TKG_LAB_SCRIPTS/set-env.sh
+
 CLUSTER_NAME=$(yq r params.yaml shared-services-cluster.name)
-GITLAB_BASE_FQDN="$(yq r params.yaml shared-services-cluster.name).$(yq r params.yaml subdomain)"
+GITLAB_BASE_FQDN="$(yq r params.yaml shared-services-cluster.ingress-fqdn)"
+GITLAB_BASE_FQDN=${GITLAB_BASE_FQDN:2}
 IAAS=$(yq r params.yaml iaas)
 LETS_ENCRYPT_EMAIL=$(yq r params.yaml lets-encrypt-acme-email)
 mkdir -p generated/$CLUSTER_NAME/gitlab/
 
-cp gitlab/values-gitlab.yaml generated/$CLUSTER_NAME/gitlab/values-gitlab.yaml
+cp $TKG_LAB_SCRIPTS/../gitlab/values-gitlab.yaml generated/$CLUSTER_NAME/gitlab/values-gitlab.yaml
 
 # Grab the external IP or name
 if [ "$IAAS" = "aws" ];

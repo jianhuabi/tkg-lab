@@ -7,7 +7,7 @@ IAAS=$(yq r $PARAMS_YAML iaas)
 
 if [ "$IAAS" = "aws" ];
 then
-  kubectl apply -f storage-classes/default-storage-class-aws.yaml
+  kubectl apply -f $TKG_LAB_SCRIPTS/../storage-classes/default-storage-class-aws.yaml
 else
-  kubectl apply -f storage-classes/default-storage-class-vsphere.yaml
+  kubectl apply -f $TKG_LAB_SCRIPTS/../storage-classes/default-storage-class-vsphere.yaml
 fi

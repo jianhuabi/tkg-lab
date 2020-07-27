@@ -22,11 +22,11 @@ yq read tkg-extensions/authentication/gangway/aws/02-service.yaml > generated/$C
 yq write -d0 generated/$CLUSTER_NAME/gangway/02-service.yaml -i "spec.type" "ClusterIP"
 
 # 02b-ingress.yaml
-yq read tkg-extensions-mods-examples/authentication/gangway/aws/02b-ingress.yaml > generated/$CLUSTER_NAME/gangway/02b-ingress.yaml
+yq read $TKG_LAB_SCRIPTS/../tkg-extensions-mods-examples/authentication/gangway/aws/02b-ingress.yaml > generated/$CLUSTER_NAME/gangway/02b-ingress.yaml
 yq write -d0 generated/$CLUSTER_NAME/gangway/02b-ingress.yaml -i "spec.virtualhost.fqdn" $GANGWAY_CN
 
 # 03-config.yaml
-yq read tkg-extensions-mods-examples/authentication/gangway/aws/03-config.yaml > generated/$CLUSTER_NAME/gangway/03-config.yaml
+yq read $TKG_LAB_SCRIPTS/../tkg-extensions-mods-examples/authentication/gangway/aws/03-config.yaml > generated/$CLUSTER_NAME/gangway/03-config.yaml
 if [ `uname -s` = 'Darwin' ]; 
 then
   sed -i '' -e 's/$DEX_CN/'$DEX_CN'/g' generated/$CLUSTER_NAME/gangway/03-config.yaml
@@ -45,7 +45,7 @@ else
 fi
 
 # 05-certs.yaml
-yq read tkg-extensions-mods-examples/authentication/gangway/aws/05-certs.yaml > generated/$CLUSTER_NAME/gangway/05-certs.yaml
+yq read $TKG_LAB_SCRIPTS/../tkg-extensions-mods-examples/authentication/gangway/aws/05-certs.yaml > generated/$CLUSTER_NAME/gangway/05-certs.yaml
 yq write -d0 generated/$CLUSTER_NAME/gangway/05-certs.yaml -i "spec.commonName" $GANGWAY_CN
 yq write -d0 generated/$CLUSTER_NAME/gangway/05-certs.yaml -i "spec.dnsNames[0]" $GANGWAY_CN
 

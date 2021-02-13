@@ -10,12 +10,6 @@ $TKG_LAB_SCRIPTS/deploy-workload-cluster.sh \
   $(yq r $PARAMS_YAML workload-cluster.controlplane-endpoint) \
   $(yq r $PARAMS_YAML workload-cluster.kubernetes-version)
 # Workload Step 2
-$TKG_LAB_SCRIPTS/tmc-attach.sh $(yq r $PARAMS_YAML workload-cluster.name)
-# Workload Step 3
-$TKG_LAB_SCRIPTS/tmc-policy.sh \
-  $(yq r $PARAMS_YAML workload-cluster.name) \
-  cluster.admin \
-  platform-team
 # Workload Step 4
 IAAS=$(yq r $PARAMS_YAML iaas)
 if [ "$IAAS" = "vsphere" ];
@@ -44,4 +38,10 @@ $TKG_LAB_SCRIPTS/generate-and-apply-fluent-bit-yaml.sh $(yq r $PARAMS_YAML workl
 # Workload Step 7
 $TKG_LAB_SCRIPTS/deploy-wavefront.sh $(yq r $PARAMS_YAML workload-cluster.name)
 # Workload Step 8
+$TKG_LAB_SCRIPTS/tmc-attach.sh $(yq r $PARAMS_YAML workload-cluster.name)
+# Workload Step 3
+$TKG_LAB_SCRIPTS/tmc-policy.sh \
+  $(yq r $PARAMS_YAML workload-cluster.name) \
+  cluster.admin \
+  platform-team
 $TKG_LAB_SCRIPTS/dataprotection.sh $(yq r $PARAMS_YAML workload-cluster.name)

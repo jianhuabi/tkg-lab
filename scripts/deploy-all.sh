@@ -44,12 +44,6 @@ $TKG_LAB_SCRIPTS/deploy-workload-cluster.sh \
   $(yq r $PARAMS_YAML shared-services-cluster.controlplane-endpoint) \
   $(yq r $PARAMS_YAML shared-services-cluster.kubernetes-version)
 # Shared Services Step 2
-$TKG_LAB_SCRIPTS/tmc-attach.sh $(yq r $PARAMS_YAML shared-services-cluster.name)
-# Shared Services Step 3
-$TKG_LAB_SCRIPTS/tmc-policy.sh \
-  $(yq r $PARAMS_YAML shared-services-cluster.name) \
-  cluster.admin \
-  platform-team
 # Shared Services Step 4
 if [ "$IAAS" = "vsphere" ];
 then
@@ -79,6 +73,12 @@ $TKG_LAB_SCRIPTS/generate-and-apply-fluent-bit-yaml.sh $(yq r $PARAMS_YAML share
 # Shared Services Step 8
 $TKG_LAB_SCRIPTS/deploy-wavefront.sh $(yq r $PARAMS_YAML shared-services-cluster.name)
 # Shared Services Step 9
+$TKG_LAB_SCRIPTS/tmc-attach.sh $(yq r $PARAMS_YAML shared-services-cluster.name)
+# Shared Services Step 3
+$TKG_LAB_SCRIPTS/tmc-policy.sh \
+  $(yq r $PARAMS_YAML shared-services-cluster.name) \
+  cluster.admin \
+  platform-team
 $TKG_LAB_SCRIPTS/dataprotection.sh $(yq r $PARAMS_YAML shared-services-cluster.name)
 # Shared Services Step 10
 $TKG_LAB_SCRIPTS/generate-and-apply-harbor-yaml.sh \
